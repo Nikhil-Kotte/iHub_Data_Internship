@@ -226,7 +226,38 @@ python multi_image_detection.py
 
 # Analyze metrics
 python analyze_metrics.py
+
+# YOLO built-in metrics
+python yolo_validation_metrics.py
 ```
+
+### YOLO Built-in Metrics (Bonus)
+
+YOLO provides native performance evaluation with detailed timing breakdown:
+
+**Script:** `yolo_validation_metrics.py`
+
+**Automatic Metrics Tracked:**
+- ⏱️ **Preprocess time:** Image resizing, normalization (2-6ms)
+- ⏱️ **Inference time:** Neural network forward pass (150-300ms CPU)
+- ⏱️ **Postprocess time:** NMS, coordinate scaling, mask generation (1-24ms)
+
+**Results from Built-in Metrics:**
+
+| Model | Total Time | Preprocess | Inference | Postprocess | FPS |
+|-------|------------|------------|-----------|-------------|-----|
+| Detection | 207.88ms | 3.4ms | 201.4ms | 3.0ms | 4.81 |
+| Segmentation | 273.54ms | 4.8ms | 258.9ms | 9.9ms | 3.66 |
+
+**Key Finding:** Segmentation postprocessing takes 3.3x longer due to mask generation.
+
+**CLI Usage:**
+```bash
+# Quick prediction with automatic metrics
+yolo detect predict model=yolov8n.pt source="Sample Images" save=true
+```
+
+See `YOLO_METRICS_GUIDE.md` for comprehensive documentation on YOLO's built-in evaluation features.
 
 ---
 
