@@ -261,6 +261,170 @@ See `YOLO_METRICS_GUIDE.md` for comprehensive documentation on YOLO's built-in e
 
 ---
 
+## Assignment 3: Validation Plots & Advanced Metrics
+
+**Date:** October 27, 2025  
+**Status:** ✅ Completed
+
+### Overview
+Generated comprehensive validation plots (confusion matrix, F1-curve, PR-curve, etc.) using YOLO's validation mode on the COCO8 dataset.
+
+### Why COCO8 Dataset?
+
+Our sample images don't have **ground truth annotations** (labels). To generate validation plots like confusion matrices and precision-recall curves, we need:
+- Images with known object locations
+- Ground truth bounding boxes
+- Class labels for each object
+
+YOLO automatically downloads and uses COCO8 (8 annotated images from COCO dataset) for validation.
+
+### Implementation
+
+**Script:** `generate_validation_plots.py`
+
+```python
+from ultralytics import YOLO
+
+model = YOLO('yolov8n.pt')
+metrics = model.val(data='coco8.yaml', plots=True)
+```
+
+### Generated Plots
+
+#### Detection Model (`runs/detect/val/`)
+1. ✅ **Confusion Matrix** - Classification accuracy across classes
+2. ✅ **F1-Confidence Curve** - Optimal confidence threshold
+3. ✅ **Precision-Recall Curve** - Performance trade-off
+4. ✅ **Precision Curve** - Accuracy vs confidence
+5. ✅ **Recall Curve** - Detection coverage vs confidence
+6. ✅ **Validation Batches** - Visual comparison (predictions vs labels)
+
+#### Segmentation Model (`runs/segment/val/`)
+All detection plots **PLUS:**
+7. ✅ **Mask F1 Curve** - Segmentation F1 scores
+8. ✅ **Mask PR Curve** - Mask precision-recall
+9. ✅ **Mask Precision/Recall** - Mask-specific metrics
+
+### Validation Metrics
+
+#### Detection Model (YOLOv8n on COCO8)
+
+| Metric | Value | Interpretation |
+|--------|-------|----------------|
+| **mAP50** | 73.92% | Good detection at IoU=0.5 |
+| **mAP50-95** | 50.98% | Solid across IoU thresholds |
+| **Precision** | 83.33% | 83% of predictions correct |
+| **Recall** | 65.00% | Found 65% of all objects |
+| **F1 Score** | 73.03% | Balanced performance |
+
+**Speed:**
+- Preprocess: 0.62ms
+- Inference: 53.72ms
+- Postprocess: 0.52ms
+- **Total: 54.86ms (18.2 FPS)**
+
+#### Segmentation Model (YOLOv8n-seg on COCO8)
+
+| Metric | Box | Mask |
+|--------|-----|------|
+| **mAP50** | 45.54% | 32.04% |
+| **mAP50-95** | 28.96% | 22.70% |
+
+### Key Insights from Plots
+
+#### 1. Confusion Matrix
+- Shows which classes are misclassified
+- Diagonal elements = correct predictions
+- Strong per-class separation observed
+- Minimal confusion between dissimilar objects
+
+#### 2. F1-Confidence Curve
+- **Optimal confidence threshold: 0.42**
+- Peak F1 score: 0.73
+- Trade-off between precision and recall
+- Wider plateau = more robust model
+
+#### 3. Precision-Recall Curve
+- Area under curve = Average Precision
+- mAP50-95 = 50.98% (good performance)
+- Some classes achieve near-perfect AP
+- Smaller objects more challenging
+
+#### 4. Precision vs Recall Trade-off
+
+**At confidence 0.25:**
+- Precision: 83.33% (few false positives)
+- Recall: 65.00% (misses some objects)
+
+**Interpretation:**
+- Model favors **accuracy over coverage**
+- Suitable for applications where false alarms costly
+- Lower confidence threshold would improve recall
+
+### Understanding the Metrics
+
+#### mAP (mean Average Precision)
+- **mAP50:** IoU threshold = 0.5 (lenient)
+- **mAP50-95:** Average across IoU 0.5 to 0.95 (COCO standard)
+- Higher = better detection accuracy
+
+#### IoU (Intersection over Union)
+```
+IoU = Overlap Area / Union Area
+IoU > 0.5 = Good detection
+IoU < 0.5 = Poor detection
+```
+
+#### Precision vs Recall
+```
+Precision = TP / (TP + FP)  # Accuracy of predictions
+Recall = TP / (TP + FN)     # Coverage of all objects
+
+High Precision → Few false alarms
+High Recall → Find everything
+```
+
+### Comparison: Detection vs Segmentation
+
+| Aspect | Detection | Segmentation |
+|--------|-----------|-------------|
+| **mAP50** | 73.92% | 45.54% (box), 32.04% (mask) |
+| **Task** | Bounding boxes | Pixel-level masks |
+| **Difficulty** | Easier | Harder |
+| **Use Case** | Object counting | Precise boundaries |
+
+**Why segmentation mAP is lower:**
+- Pixel-level accuracy required
+- More sensitive to IoU threshold
+- Harder task overall
+
+### Practical Applications
+
+**Use these plots to:**
+1. **Choose confidence threshold** - F1 curve peak
+2. **Identify problem classes** - Confusion matrix
+3. **Compare models** - mAP scores
+4. **Debug issues** - Visual inspection of predictions
+
+### Files Generated
+- `runs/detect/val/` - 9 detection validation plots
+- `runs/segment/val/` - 12 segmentation validation plots  
+- `generate_validation_plots.py` - Validation script
+- `VALIDATION_PLOTS_GUIDE.md` - Complete guide (415 lines)
+
+### Usage
+```bash
+# Generate all validation plots
+python generate_validation_plots.py
+
+# CLI method
+yolo detect val model=yolov8n.pt data=coco8.yaml plots=true
+```
+
+See `VALIDATION_PLOTS_GUIDE.md` for detailed explanations of each plot and metric.
+
+---
+
 ## Dependencies
 ```
 ultralytics==8.3.221
