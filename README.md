@@ -8,8 +8,8 @@ This repository documents my work in the Vision domain internship program, focus
 
 ## Assignment 1: Installation and Initial Testing
 
-**Date:** October 27, 2025  
-**Status:** ✅ Completed
+**Date:** October 20, 2025  
+**Status:** Completed
 
 ### Setup Process
 
@@ -76,10 +76,10 @@ yolo version
 - `yolov8n-seg.pt` - Pre-trained segmentation model (6.7 MB)
 
 ### Key Observations
-1. ✅ Successfully installed ultralytics package
-2. ✅ Both detection and segmentation models work correctly
-3. ✅ Models can process online images
-4. ✅ Real-time inference is fast enough for practical applications
+1. Successfully installed the ultralytics package
+2. Both detection and segmentation models work correctly
+3. Models can process online images
+4. Real-time inference is fast enough for practical applications
 5. The segmentation model detected an additional object (skateboard) compared to the detection model
 
 ---
@@ -87,7 +87,7 @@ yolo version
 ## Assignment 2: Multi-Image Processing and Performance Metrics
 
 **Date:** October 27, 2025  
-**Status:** ✅ Completed
+**Status:** Completed
 
 ### Overview
 Processed 10 sample images using both detection and segmentation models, collected detailed performance metrics, and analyzed the results.
@@ -183,11 +183,11 @@ Processed 10 sample images using both detection and segmentation models, collect
 
 ### Key Insights
 
-1. **✅ Batch Processing Efficient:** Both models can process 10+ images/second on CPU
-2. **✅ Consistent Performance:** After warm-up, inference time is stable (40-70ms)
-3. **✅ Real-time Capable:** Detection model achieves ~17 fps, suitable for video
-4. **✅ Trade-offs Clear:** Segmentation provides more detail (+masks) at 27% time cost
-5. **✅ Model Reliability:** Both models detected objects across diverse image types
+1. **Batch Processing Efficient:** Both models can process 10+ images/second on CPU
+2. **Consistent Performance:** After warm-up, inference time is stable (40-70ms)
+3. **Real-time Capable:** Detection model achieves ~17 fps, suitable for video
+4. **Trade-offs Clear:** Segmentation provides more detail (+masks) at 27% time cost
+5. **Model Reliability:** Both models detected objects across diverse image types
 
 ### Metrics Explanation
 
@@ -238,9 +238,9 @@ YOLO provides native performance evaluation with detailed timing breakdown:
 **Script:** `yolo_validation_metrics.py`
 
 **Automatic Metrics Tracked:**
-- ⏱️ **Preprocess time:** Image resizing, normalization (2-6ms)
-- ⏱️ **Inference time:** Neural network forward pass (150-300ms CPU)
-- ⏱️ **Postprocess time:** NMS, coordinate scaling, mask generation (1-24ms)
+- **Preprocess time:** Image resizing, normalization (2-6ms)
+- **Inference time:** Neural network forward pass (150-300ms CPU)
+- **Postprocess time:** NMS, coordinate scaling, mask generation (1-24ms)
 
 **Results from Built-in Metrics:**
 
@@ -263,8 +263,8 @@ See `YOLO_METRICS_GUIDE.md` for comprehensive documentation on YOLO's built-in e
 
 ## Assignment 3: Validation Plots & Advanced Metrics
 
-**Date:** October 27, 2025  
-**Status:** ✅ Completed
+**Date:** November 1, 2025  
+**Status:** Completed
 
 ### Overview
 Generated comprehensive validation plots (confusion matrix, F1-curve, PR-curve, etc.) using YOLO's validation mode on the COCO8 dataset.
@@ -292,18 +292,18 @@ metrics = model.val(data='coco8.yaml', plots=True)
 ### Generated Plots
 
 #### Detection Model (`runs/detect/val/`)
-1. ✅ **Confusion Matrix** - Classification accuracy across classes
-2. ✅ **F1-Confidence Curve** - Optimal confidence threshold
-3. ✅ **Precision-Recall Curve** - Performance trade-off
-4. ✅ **Precision Curve** - Accuracy vs confidence
-5. ✅ **Recall Curve** - Detection coverage vs confidence
-6. ✅ **Validation Batches** - Visual comparison (predictions vs labels)
+1. **Confusion Matrix** - Classification accuracy across classes
+2. **F1-Confidence Curve** - Optimal confidence threshold
+3. **Precision-Recall Curve** - Performance trade-off
+4. **Precision Curve** - Accuracy vs confidence
+5. **Recall Curve** - Detection coverage vs confidence
+6. **Validation Batches** - Visual comparison (predictions vs labels)
 
 #### Segmentation Model (`runs/segment/val/`)
 All detection plots **PLUS:**
-7. ✅ **Mask F1 Curve** - Segmentation F1 scores
-8. ✅ **Mask PR Curve** - Mask precision-recall
-9. ✅ **Mask Precision/Recall** - Mask-specific metrics
+7. **Mask F1 Curve** - Segmentation F1 scores
+8. **Mask PR Curve** - Mask precision-recall
+9. **Mask Precision/Recall** - Mask-specific metrics
 
 ### Validation Metrics
 
